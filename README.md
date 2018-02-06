@@ -94,11 +94,84 @@ with the more simplest form of this AngularJS real model layer. However, if you 
     'use strict';
 
     angular.module ('aml')
+           .value ('OrderItemModel', OrderItemModel);
+
+    function OrderItemModel() {
+        this.id = null;
+        this.product = null;
+        this.price = null;
+        this.labelOnClientSide = null;
+    }
+
+    /**
+     * Accessible functions when a new object is created
+     *
+     * @type {{constructor: OrderItemModel}}
+     */
+    OrderItemModel.prototype = {
+        constructor: OrderItemModel
+    };
+
+    /**
+     *    Return an array with the properties that need to be created
+     * using a specific model.
+     *
+     * @return {Array}
+     */
+    OrderItemModel.getPropertiesWithModelConstructor = function () {
+
+        var result = [];
+        result['product'] = 'ProductModel';
+
+        return result;
+    };
+
+    /**
+     *    Return an array with the properties that we don't want to
+     * use when an object of this class is converted to a JSON string
+     *
+     * @returns {string[]}
+     */
+    OrderItemModel.getPropertiesExcludedOfJsonConversion = function () {
+        return ['labelOnClientSide'];
+    };
+
+})();
+```
+
+This second example, **OrderItemModel**, allows us to explain some useful functions used by **ModelTransformerService** (*if those functions are defined, 
+nothing will happen if the model does not implement them*):
+
+* **getPropertiesWithModelConstructor**: invoked when a property needs to be created using another model.
+* **getPropertiesExcludedOfJsonConversion**: properties excluded when we want to convert objects of the model to a JSON string.
+
+From now, we can create instances of any model described above:
+
+```javascript
+var product = new ProductModel();
+product.id = 1;
+product.name = 'prod1';
+
+var orderItem = new OrderItemModel();
+orderItem.id = 1;
+orderItem.product = product;
+orderItem.price = 5.61;
+```
+
+If we want, we can add more functionality to a model. For example:
+
+```javascript
+(function () {
+    'use strict';
+
+    angular.module ('aml')
            .value ('ProductModel', ProductModel);
 
     function ProductModel() {
         this.id = null;
         this.name = null;
+        this.price = null;
+        this.createDate = null;
     }
 
     /**
@@ -107,12 +180,70 @@ with the more simplest form of this AngularJS real model layer. However, if you 
      * @type {{constructor: ProductModel}}
      */
     ProductModel.prototype = {
-        constructor: ProductModel
+        constructor: ProductModel,
+        copy: copy,
+        equals: equals,
+        isNew: isNew
     };
 
+    /**
+     * Copies all properties of the given product
+     *
+     * @param {ProductModel} other
+     *    Object to copy
+     */
+    function copy (other) {
+
+        if (typeof other === 'undefined' || other == null || typeof other.constructor === 'undefined' ||
+               other.constructor.name != 'ProductModel')
+            return;
+
+        this.id = other.id;
+        this.name = other.name;
+        this.price = other.price;
+        this.createDate = other.createDate;
+    }
+
+    /**
+     * Returns TRUE if the current object is equal to the given one, FALSE otherwise.
+     *
+     * @param {ProductModel} other
+     *    Object to compare
+     *
+     * @return {boolean}
+     */
+    function equals (other) {
+
+        if (typeof other === 'undefined' || other == null || typeof other.constructor === 'undefined' ||
+               other.constructor.name != 'ProductModel')
+            return false;
+
+        if (this.id !== other.id)
+            return false;
+
+        if (this.name !== other.name)
+            return false;
+
+        if (this.price !== other.price)
+            return false;
+
+        if (this.createDate !== other.createDate)
+            return false;
+
+        return true;
+    }
+
+    /**
+     * Returns TRUE if the current locker has not been saved on "server side" yet, FALSE otherwise.
+     *
+     * @return {boolean}
+     */
+    function isNew() {
+        return this.id == null;
+    }
+    
 })();
 ```
-
 ## ModelTransformerService
 
 Helper functions used to transform a JSON string, Javascript object or array of them to an object/s described in Models as AngularJS values, and vice versa. Currently the service has the following methods:
@@ -133,7 +264,8 @@ do not exist in the "final Model object".
 ```
 * @param {boolean} convertAllPropertiesDefinedInModel
 *    If true (or undefined) => transforms all properties.
-*    If false => excludes the properties returned by the function getPropertiesExcludedOfJsonConversion defined in the model definition.
+*    If false => excludes the properties returned by the function getPropertiesExcludedOfJsonConversion 
+                 defined in the model definition.
 ```
 
 Now, the next step is to learn how we can use those methods:
