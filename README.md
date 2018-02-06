@@ -1,4 +1,4 @@
-# AngularJSModelLayer
+# AngularJS model layer
 
 - [Why this project was created?](#why-this-project-was-created)
 - [Modules included in this project](#modules-included-in-this-project)
