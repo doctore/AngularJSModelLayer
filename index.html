@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" href="/favicon.ico">
+
+    <title>Test project for AngularJS</title>
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css assets/css/aml.min.css -->
+    <!-- components css -->
+    <link rel="stylesheet" href="assets/libs/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- app css -->
+    <link rel="stylesheet" href="assets/css/aml.general.css">
+
+</head>
+<body ng-app="aml" ng-controller="MainController">
+
+<div class="height100" ng-view>
+
+</div>
+<script class="dependency" src="assets/libs/bower_components/jquery/dist/jquery.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/angular/angular.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/angular-route/angular-route.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/angular-loader/angular-loader.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/moment/min/moment.min.js"></script>
+<script class="dependency" src="assets/libs/bower_components/lodash/dist/lodash.min.js"></script>
+
+<!-- build:js assets/libs/extensions.min.js -->
+<script class="extension" src="assets/libs/extensions/function.ext.js"></script>
+<!-- /build -->
+
+<!-- build:js app/aml.min.js -->
+<script class="core" src="app/config/constants.js"></script>
+<script class="core" src="app/app.ws_routes.js"></script>
+<script class="core" src="app/app.module.js"></script>
+<script class="core" src="app/app.config.js"></script>
+<script class="core" src="app/app.routes.js"></script>
+<!-- components -->
+<script class="core" src="app/components/main/main.controller.js"></script>
+<!-- models -->
+<script class="core" src="app/shared/models/order.model.js"></script>
+<script class="core" src="app/shared/models/orderItem.model.js"></script>
+<script class="core" src="app/shared/models/product.model.js"></script>
+<!-- services -->
+<script class="core" src="app/shared/services/utils/checkVariables.service.js"></script>
+<script class="core" src="app/shared/services/utils/log.service.js"></script>
+<script class="core" src="app/shared/services/utils/modelTransformer.service.js"></script>
+<script class="core" src="app/shared/services/utils/string.service.js"></script>
+<script class="core" src="app/shared/services/order.service.js"></script>
+<!-- /build -->
+
+</body>
+</html>

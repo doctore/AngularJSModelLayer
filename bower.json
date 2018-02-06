@@ -1,0 +1,23 @@
+{
+  "name": "angularjs.model.layer",
+  "version": "1.0.0",
+  "description": "Custom model layer to work with an AngularJS application",
+  "private": true,
+  "author": "CJRE",
+  "dependencies": {
+    "angular": "1.6.7",
+    "angular-route": "1.6.7",
+    "angular-cookies": "1.6.7",
+    "angular-loader": "1.6.7",
+    "angular-sanitize": "1.6.7",
+    "bootstrap": "3.3.7",
+    "moment": "2.20.1",
+    "lodash": "4.17.4"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.6.7"
+  },
+  "resolutions": {
+    "angular": "1.6.7"
+  }
+}
