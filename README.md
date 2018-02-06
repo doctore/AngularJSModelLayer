@@ -2,7 +2,9 @@
 
 - [Why this project was created?](#why-this-project-was-created)
 - [Modules included in this project](#modules-included-in-this-project)
-- [CheckVariablesService](#checkVariablesService)
+- [CheckVariablesService](#checkvariablesservice)
+- [Use AngularJS values as models](#use-angularjs-values-as-models)
+- [ModelTransformerService](#modeltransformerservice)
 
 ## Why this project was created?
 
@@ -55,3 +57,164 @@ TypeError ('deleteOrder orderId: null [is null] [is not number]')
 ```
 
 *Please see this service definition for more information*.
+
+## Use AngularJS values as models
+
+A way to represent a model's layer in AngularJS using its values as entities is the following:
+
+```javascript
+(function () {
+    'use strict';
+
+    angular.module ('aml')
+           .value ('ProductModel', ProductModel);
+
+    function ProductModel() {
+        this.id = null;
+        this.name = null;
+    }
+
+    /**
+     * Accessible functions when a new object is created
+     *
+     * @type {{constructor: ProductModel}}
+     */
+    ProductModel.prototype = {
+        constructor: ProductModel
+    };
+
+})();
+```
+
+As you can see, **ProductModel** is a very simple object that contains only two properties: *id* and *name*. No more code is required if you want to work
+with the more simplest form of this AngularJS real model layer. However, if you want, a more complex version can be developed of this one:
+
+```javascript
+(function () {
+    'use strict';
+
+    angular.module ('aml')
+           .value ('ProductModel', ProductModel);
+
+    function ProductModel() {
+        this.id = null;
+        this.name = null;
+    }
+
+    /**
+     * Accessible functions when a new object is created
+     *
+     * @type {{constructor: ProductModel}}
+     */
+    ProductModel.prototype = {
+        constructor: ProductModel
+    };
+
+})();
+```
+
+## ModelTransformerService
+
+Helper functions used to transform a JSON string, Javascript object or array of them to an object/s described in Models as AngularJS values, and vice versa. Currently the service has the following methods:
+
+* **fromArrayToModel**: converts an array of Javascript objects to an array of required Model.
+* **fromJsonArrayToModel**: converts a JSON string which contains an "array of objects" to an array of required Model
+* **fromJsonToModel**: converts a JSON string which contains "only one object" to an object of required Model
+* **fromModelArrayToJson**: converts an array of objects belonging to a specific Model to a JSON string which contains an "array of objects".
+* **fromModelObjectToJson**: converts an object belonging to a specific Model to a JSON string.
+* **fromObjectToModel**: converts a Javascript object to an object of required Model.
+
+It is important to know the following rules:
+
+**1.** If the "final object" is a Model, only the properties defined on it will be copied, that is, the "transformation functions" will discard the properties from the "origin Javascript object / JSON" that
+do not exist in the "final Model object".
+
+**2.** If we want to convert a Model object (or array of them) to a JSON string using **fromModelArrayToJson** or **fromModelObjectToJson**, both methods have the following parameter:
+```
+* @param {boolean} convertAllPropertiesDefinedInModel
+*    If true (or undefined) => transforms all properties.
+*    If false => excludes the properties returned by the function getPropertiesExcludedOfJsonConversion defined in the model definition.
+```
+
+Now, the next step is to learn how we can use those methods:
+
+```javascript
+/**
+ * Service used to manage the operations related with the products in the application.
+ */
+(function () {
+    'use strict';
+ 
+    angular.module ('aml')
+           .factory ('productService', productService);
+ 
+    // Injections for this service
+    productService.$inject = ['$http', 'checkVariablesService', 'CONFIG', 'modelTransformerService', 'ProductModel', 'WS'];
+ 
+    /*
+     * Constructor for this service
+     */
+    function productService ($http, checkVariablesService, CONFIG, modelTransformerService, ProductModel, WS) {
+ 
+        // Log Tag
+        var TAG = 'productService';
+ 
+        //Public API
+        return {
+            addNewProduct : addNewProduct,
+            getAllProducts : getAllProducts
+        };
+ 
+ 
+        /**
+         * Send a new product to the REST Api to persist it in database
+         *
+         * @param {ProductModel} newProduct
+         *    Product to insert
+         *
+         * @return {promise} with the new product (ProductModel)
+         *
+         * @throws Error
+         */
+        function addNewProduct (newProduct) {
+ 
+            // Title of the log/error messages
+            var logTitle = TAG + '.addNewProduct';
+ 
+            checkVariablesService.checkVariable (newProduct, ['!null', '!undefined', 'instanceof ProductModel'], logTitle + ' newProduct');
+ 
+            // Executes add product WS
+            return $http.post (CONFIG.APP.REST_API + WS.PRODUCT.POST
+                              ,modelTransformerService.fromModelObjectToJson (newProduct, false)).then (function (newProductFromServer) {
+ 
+                if (newProductFromServer != null && newProductFromServer.data != null) {
+                    return modelTransformerService.fromObjectToModel (newProductFromServer.data, ProductModel);
+                }
+                else {
+                    throw new Error (logTitle + '. There was an error trying to add the product '
+                                   + modelTransformerService.fromModelObjectToJson (newProduct, false)
+                                   + 'in the server side. The information returned by API is null');
+                }
+            });
+        }
+ 
+ 
+        /**
+         * Gets from the server the list of products.
+         *
+         * @return {promise} with an array of products (ProductModel)
+         */
+        function getAllProducts() {
+ 
+            // Executes get products WS
+            return $http.get (CONFIG.APP.REST_API + WS.PRODUCT.GET).then (function (productsList) {
+ 
+                if (productsList != null && productsList.data != null) {
+                    return modelTransformerService.fromArrayToModel (productsList.data, ProductModel);
+                }
+                return [];
+            });
+        } 
+    } 
+})();
+```
