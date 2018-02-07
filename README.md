@@ -48,12 +48,12 @@ function deleteOrder (orderId) {
 Now we can see what happens if we invoke this function with a *null* value as parameter:
 
 ```javascript
-var orderId = null;
+var orderId = 'AA';
   
-deleteOrder (orderId)   
+deleteOrder (orderId);
 
 // It will returns:
-TypeError ('deleteOrder orderId: null [is null] [is not number]')
+TypeError ('deleteOrder orderId: AA [is not number]')
 ```
 
 *Please see this service definition for more information*.
@@ -139,7 +139,7 @@ with the more simplest form of this AngularJS real model layer. However, if you 
 })();
 ```
 
-This second example, **OrderItemModel**, allows us to explain some useful functions used by **ModelTransformerService** (*if those functions are defined, 
+This second example, **OrderItemModel**, allows us to explain some useful functions used by **ModelTransformerService** (*those ones are not required, 
 nothing will happen if the model does not implement them*):
 
 * **getPropertiesWithModelConstructor**: invoked when a property needs to be created using another model.
