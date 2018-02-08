@@ -87,7 +87,7 @@ A way to represent a model layer in AngularJS using its values as entities is th
 ```
 
 As you can see, **ProductModel** is a very simple object that contains only two properties: *id* and *name*. No more code is required if you want to work
-with the more simplest form of this AngularJS real model layer. However, if you want, a more complex version can be developed of this one:
+with the more simplest form of this AngularJS real model layer. However, if you want, a more complex version can be developed:
 
 ```javascript
 (function () {
@@ -139,7 +139,7 @@ with the more simplest form of this AngularJS real model layer. However, if you 
 })();
 ```
 
-This second example, **OrderItemModel**, allows us to explain some useful functions used by **ModelTransformerService** (*those ones are not required, 
+This second example, **OrderItemModel**, allows me to explain some useful functions used by **ModelTransformerService** (*those ones are not required, 
 nothing will happen if the model does not implement them*):
 
 * **getPropertiesWithModelConstructor**: invoked when a property needs to be created using another model.
@@ -234,7 +234,7 @@ If we want, we can add more functionality to a model. For example:
     }
 
     /**
-     * Returns TRUE if the current locker has not been saved on "server side" yet, FALSE otherwise.
+     * Returns TRUE if the current order has not been saved on "server side" yet, FALSE otherwise.
      *
      * @return {boolean}
      */
@@ -249,8 +249,8 @@ If we want, we can add more functionality to a model. For example:
 Helper functions used to transform a JSON string, Javascript object or array of them to an object/s described in Models as AngularJS values, and vice versa. Currently the service has the following methods:
 
 * **fromArrayToModel**: converts an array of Javascript objects to an array of required Model.
-* **fromJsonArrayToModel**: converts a JSON string which contains an "array of objects" to an array of required Model
-* **fromJsonToModel**: converts a JSON string which contains "only one object" to an object of required Model
+* **fromJsonArrayToModel**: converts a JSON string which contains an "array of objects" to an array of required Model.
+* **fromJsonToModel**: converts a JSON string which contains "only one object" to an object of required Model.
 * **fromModelArrayToJson**: converts an array of objects belonging to a specific Model to a JSON string which contains an "array of objects".
 * **fromModelObjectToJson**: converts an object belonging to a specific Model to a JSON string.
 * **fromObjectToModel**: converts a Javascript object to an object of required Model.
