@@ -60,7 +60,7 @@ TypeError ('deleteOrder orderId: AA [is not number]')
 
 ## Use AngularJS values as models
 
-A way to represent a model's layer in AngularJS using its values as entities is the following:
+A way to represent a model layer in AngularJS using its values as entities is the following:
 
 ```javascript
 (function () {
