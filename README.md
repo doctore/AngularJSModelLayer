@@ -245,7 +245,7 @@ If we want, we can add more functionality to a model. For example:
 })();
 ```
 
-One important thing to take into account is to include in your project the following line (*as you can see in **index.html** file):
+One important thing to take into account is to include in your project the following line (*as you can see in **index.html** file*):
 
 ```javascript
 <script src="assets/libs/extensions/function.ext.js"></script>
