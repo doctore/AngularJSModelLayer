@@ -260,6 +260,8 @@ Reading the comment included on it, we will be able to find the reason:
  **/
 ```
 
+This functionality is used by the service described in the next section.
+
 ## ModelTransformerService
 
 Helper functions used to transform a JSON string, Javascript object or array of them to an object/s described in Models as AngularJS values, and vice versa. Currently the service has the following methods:
