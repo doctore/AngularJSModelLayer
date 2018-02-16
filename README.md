@@ -45,7 +45,7 @@ function deleteOrder (orderId) {
 }
 ```
 
-Now we can see what happens if we invoke this function with a *string* value as parameter:
+Now we can see what happens if we invoke this function with an *string* value as parameter:
 
 ```javascript
 var orderId = 'AA';
@@ -244,6 +244,22 @@ If we want, we can add more functionality to a model. For example:
     
 })();
 ```
+
+One important thing to take into account is to include in your project the following line (*as you can see in **index.html** file):
+
+```javascript
+<script src="assets/libs/extensions/function.ext.js"></script>
+```
+
+Reading the comment included on it, we will be able to find the reason:
+
+```javascript
+/**
+ * Hack in support for Function.name for browsers that don't support it.
+ * IE, I'm looking at you.
+ **/
+```
+
 ## ModelTransformerService
 
 Helper functions used to transform a JSON string, Javascript object or array of them to an object/s described in Models as AngularJS values, and vice versa. Currently the service has the following methods:
