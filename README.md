@@ -45,7 +45,7 @@ function deleteOrder (orderId) {
 }
 ```
 
-Now we can see what happens if we invoke this function with a *null* value as parameter:
+Now we can see what happens if we invoke this function with a *string* value as parameter:
 
 ```javascript
 var orderId = 'AA';
