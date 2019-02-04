@@ -1,12 +1,12 @@
 # AngularJS model layer
 
-- [Why this project was created?](#why-this-project-was-created)
+- [Why was this project created?](#why-was-this-project-created)
 - [Modules included in this project](#modules-included-in-this-project)
 - [CheckVariablesService](#checkvariablesservice)
 - [Use AngularJS values as models](#use-angularjs-values-as-models)
 - [ModelTransformerService](#modeltransformerservice)
 
-## Why this project was created?
+## Why was this project created?
 
 Really **AngularJS** has not a real model layer, the developers can use *$scope* variable to store on it every thing they want but without a real control about what is the content
 of this variable. This is the reason why I developed this functionality in 2016.
